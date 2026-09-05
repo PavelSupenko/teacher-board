@@ -1,0 +1,43 @@
+{
+  "name": "teach-board",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive whiteboard for teachers: Wacom pen support and a local collaboration server",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently -n server,client -c cyan,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "node --watch server/index.js",
+    "dev:client": "vite",
+    "build": "tsc -b && vite build",
+    "start": "npm run build && node server/index.js",
+    "share": "npm run build && node server/index.js --tunnel",
+    "serve": "node server/index.js",
+    "test": "npm run test:logic && npm run test:server && npm run test:tunnel && npm run test:browser",
+    "test:logic": "esbuild tests/logic.test.ts --bundle --platform=node --format=esm --outfile=.tmp/logic.mjs --log-level=error && node .tmp/logic.mjs",
+    "test:server": "node tests/server.test.mjs",
+    "typecheck": "tsc -b",
+    "test:tunnel": "node tests/tunnel.test.mjs",
+    "test:browser": "node tests/browser.test.mjs",
+    "setup": "sh scripts/install.sh",
+    "package": "git archive --format=zip --prefix=class-board/ -o class-board.zip HEAD"
+  },
+  "dependencies": {
+    "ws": "^8.18.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.1.2",
+    "esbuild": "^0.25.12",
+    "jspdf": "^3.0.1",
+    "nanoid": "^5.1.5",
+    "perfect-freehand": "^1.2.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.4"
+  }
+}
